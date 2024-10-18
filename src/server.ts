@@ -11,6 +11,7 @@ const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
 const allowedOrigins = [
   "http://localhost:5173",
   "https://your-production-frontend-url.com",
@@ -25,10 +26,12 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    methods: "GET,POST,PUT,DELETE",
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
     credentials: true,
   })
 );
+
+app.options("*", cors());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/reviews", reviewRoutes);
