@@ -11,9 +11,20 @@ const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://your-production-frontend-url.com",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
