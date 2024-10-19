@@ -8,25 +8,39 @@ import cors from "cors";
 dotenv.config();
 connectDB();
 const app: Application = express();
-const PORT = process.env.PORT || 3000;
+
+if (!process.env.PORT) {
+  throw new Error("PORT environment variable is not defined");
+}
+const PORT = parseInt(process.env.PORT, 10);
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://book-review-app-rouge.vercel.app",
+];
+
+const corsOptions = {
+  origin: function (origin: string | undefined, callback: Function) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,POST,PUT,DELETE,OPTIONS",
+  credentials: true,
+};
 
 app.use(express.json());
-
-const allowedOrigins = ["https://book-review-app-rouge.vercel.app/"];
-
-app.use(
-  cors({
-    origin: "https://book-review-app-rouge.vercel.app",
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
-    credentials: true,
-  })
-);
-
-app.options("*", cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/users", authRoutes);
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, World!");
 });
