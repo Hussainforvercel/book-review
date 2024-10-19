@@ -32,6 +32,7 @@ const corsOptions = {
   },
   methods: "GET,POST,PUT,DELETE,OPTIONS",
   credentials: true,
+  exposedHeaders: ["Access-Control-Allow-Origin"],
 };
 
 app.use(express.json());
