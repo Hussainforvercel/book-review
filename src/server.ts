@@ -14,11 +14,7 @@ if (!process.env.PORT) {
 }
 const PORT = parseInt(process.env.PORT, 10);
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://book-review-app-rouge.vercel.app",
-  "https://book-review-murex.vercel.app",
-];
+const allowedOrigins = ["https://book-review-app-rouge.vercel.app"];
 
 const corsOptions = {
   origin: function (origin: string | undefined, callback: Function) {
