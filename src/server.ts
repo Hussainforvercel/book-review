@@ -12,19 +12,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const allowedOrigins = [
-  "https://book-review-app-rouge.vercel.app/",
-];
+const allowedOrigins = ["https://book-review-app-rouge.vercel.app/"];
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*",
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     credentials: true,
   })
