@@ -16,7 +16,7 @@ const allowedOrigins = ["https://book-review-app-rouge.vercel.app/"];
 
 app.use(
   cors({
-    origin: "*",
+    origin: "https://book-review-app-rouge.vercel.app",
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     credentials: true,
   })
